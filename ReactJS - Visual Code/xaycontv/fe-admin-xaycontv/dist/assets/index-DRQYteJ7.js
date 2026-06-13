@@ -1,0 +1,1 @@
+import{j as e,O as s}from"./index-Dy0YdZv8.js";const r=()=>e.jsx("div",{className:"min-h-screen w-full bg-gradient-to-tr from-blue-500 via-purple-500 to-pink-500",children:e.jsx("div",{className:"flex justify-center items-center min-h-screen",children:e.jsx("div",{className:"w-full max-w-md px-6 py-10",children:e.jsx(s,{})})})});export{r as default};

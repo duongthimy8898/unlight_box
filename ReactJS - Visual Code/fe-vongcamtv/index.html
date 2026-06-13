@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VongCamTV</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8H7TFQFN8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-Y8H7TFQFN8");
+    </script>
+    
+    <!-- <script>
+      (function () {
+        const disableContextMenu = (e) => e.preventDefault();
+
+        const handleKeyDown = (e) => {
+          const ctrlShift = (key) => e.ctrlKey && e.shiftKey && e.key.toUpperCase() === key;
+
+          const blocked = e.key === "F12" || ctrlShift("I") || ctrlShift("J") || ctrlShift("C") || (e.ctrlKey && e.key.toUpperCase() === "U");
+
+          if (blocked) {
+            e.preventDefault();
+          }
+        };
+
+        document.addEventListener("contextmenu", disableContextMenu);
+        document.addEventListener("keydown", handleKeyDown);
+      })();
+    </script> -->
+  </head>
+  <body class="h-full bg-gray-900 text-white relative">
+    <div id="root" class="min-h-screen flex flex-col w-full max-w-[1280px] mx-auto pb-[55px]"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

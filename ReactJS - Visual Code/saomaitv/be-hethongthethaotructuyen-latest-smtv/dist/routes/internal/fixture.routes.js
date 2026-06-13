@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const fixture_controller_1 = require("../../controllers/internal/fixture.controller");
+const internalFixtureRouter = (0, express_1.Router)();
+internalFixtureRouter.get("/", fixture_controller_1.getAllFixtures);
+internalFixtureRouter.get("/get", fixture_controller_1.getFixture);
+internalFixtureRouter.post("/create", fixture_controller_1.createFixture);
+internalFixtureRouter.put("/acts", fixture_controller_1.acts);
+internalFixtureRouter.put("/update/:id", fixture_controller_1.updateFixture);
+internalFixtureRouter.put("/done/:id", fixture_controller_1.doneFixture);
+internalFixtureRouter.delete("/delete/:id", fixture_controller_1.deleteFixture);
+exports.default = internalFixtureRouter;

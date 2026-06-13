@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Oswald", sans-serif;
+
+  --color-brand: #f59e0b; /* vàng accent */
+  --color-surface: #111113; /* card/panel */
+  --color-surface-2: #1a1a1d; /* nested surface */
+
+  --spacing-safe: env(safe-area-inset-bottom);
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+@keyframes borderMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes goldShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes goldSweep {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+body {
+  @apply font-sans;
+}
+
+body #mainWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+
+a, button, a *, button * {
+  @apply select-none cursor-pointer;
+}

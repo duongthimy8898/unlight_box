@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const fixture_controller_1 = require("../../controllers/external/fixture.controller");
+const externalFixtureRouter = (0, express_1.Router)();
+// externalFixtureRouter.get("/", getAllFixtures);
+externalFixtureRouter.get("/unfinished", fixture_controller_1.getUnfinishedFixtures);
+externalFixtureRouter.get("/finished", fixture_controller_1.getFinishedFixtures);
+externalFixtureRouter.get("/get", fixture_controller_1.getFixture);
+exports.default = externalFixtureRouter;

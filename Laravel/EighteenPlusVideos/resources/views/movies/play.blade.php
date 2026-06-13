@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+
+    <!-- Styles / Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#0a0a0a] w-full min-h-screen">
+    @include('fragments.header')
+    <main class="mt-4 w-full max-w-[960px] mx-auto">
+        @include('fragments.genres-section')
+        <section id="play-movie" class="mt-4 w-full py-2 bg-[#1a1a1a] rounded-[4px]">
+            <div class="w-full flex flex-col gap-2">
+                <h1 class="text-white text-xl font-semibold w-full px-2">{{ $movie['title'] }}</h1>
+                <iframe src="{{ $movie['sources'][0]['link'] }}" frameborder="0" class="w-full aspect-video"
+                    allowfullscreen></iframe>
+                <p class="text-white px-2">{{ $movie['content'] }}</p>
+            </div>
+        </section>
+
+        <section id="same-genre-movies" class="w-full mt-4 px-2">
+            <h2 class="text-xl text-white">Cùng thể loại đang xem</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 mt-2">
+                @foreach ($same_genre_movies as $movie)
+                    <a href="/movies/{{ $movie['code'] }}/play"
+                        class="w-full h-auto bg-[#1a1a1a] hover:bg-[#3a3a3a] focus:bg-[#3a3a3a] rounded-[6px] transition overflow-hidden">
+                        <img src="{{ $movie['thumbnail'] }}" alt=""
+                            class="w-full h-auto aspect-3/4 object-cover">
+                        <div class="py-1.5 px-2">
+                            <p class="text-center text-white text-sm line-clamp-3">{{ $movie['title'] }}</p>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </section>
+    </main>
+    @include('fragments.footer')
+</body>
+
+</html>

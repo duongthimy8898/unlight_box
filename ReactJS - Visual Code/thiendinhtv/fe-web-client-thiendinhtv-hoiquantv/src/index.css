@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  @apply font-sans;
+}
+html,
+body {
+  @apply text-white;
+  overflow-y: auto; /* vẫn cuộn được */
+  -ms-overflow-style: none; /* IE, Edge cũ */
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge mới */
+}
+@keyframes loading-bar {
+  0% {
+    left: -40%;
+    width: 40%;
+  }
+  50% {
+    left: 20%;
+    width: 60%;
+  }
+  100% {
+    left: 100%;
+    width: 40%;
+  }
+}
+
+@layer utilities {
+  .animate-loading-bar {
+    animation: loading-bar 1.2s ease-in-out infinite;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}

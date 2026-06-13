@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const team_controller_1 = require("../../controllers/internal/team.controller");
+const internalTeamRouter = (0, express_1.Router)();
+internalTeamRouter.get("/", team_controller_1.getAllTeams);
+internalTeamRouter.get("/get", team_controller_1.getTeam);
+internalTeamRouter.post("/create", team_controller_1.createTeam);
+internalTeamRouter.put("/update/:id", team_controller_1.updateTeam);
+internalTeamRouter.delete("/delete/:id", team_controller_1.deleteTeam);
+exports.default = internalTeamRouter;

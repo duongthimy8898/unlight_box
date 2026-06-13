@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const internalUser_controller_1 = require("../../controllers/internal/internalUser.controller");
+const internalUser_controller_2 = require("../../controllers/internal/internalUser.controller");
+const internalUserRouter = (0, express_1.Router)();
+internalUserRouter.get("/", internalUser_controller_2.getAllInternalUsers);
+internalUserRouter.get("/by", internalUser_controller_1.getAllInternalUsersBy);
+internalUserRouter.get("/get", internalUser_controller_2.getInternalUser);
+internalUserRouter.post("/create", internalUser_controller_2.createInternalUser);
+internalUserRouter.put("/update/:id", internalUser_controller_2.updateInternalUser);
+internalUserRouter.delete("/delete/:id", internalUser_controller_2.deleteInternalUser);
+exports.default = internalUserRouter;

@@ -1,0 +1,21 @@
+@reference "../../app/global.css";
+
+.sport-list {
+  @apply overflow-x-auto overflow-y-hidden snap-x snap-mandatory;
+}
+
+.sport-list li {
+  @apply inline-block snap-start;
+}
+
+.sport-list::-webkit-scrollbar {
+  @apply w-full h-0.5 lg:h-2;
+}
+
+.sport-list::-webkit-scrollbar-track {
+  @apply bg-slate-500/10;
+}
+
+.sport-list::-webkit-scrollbar-thumb {
+  @apply bg-slate-500/25;
+}

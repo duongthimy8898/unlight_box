@@ -1,0 +1,106 @@
+import { Request, Response } from "express";
+import { fixtureService } from "../../services/external/fixture.service";
+import { redisClient } from "../../db/redis";
+
+/**
+ * GET all fixtures
+ */
+const ALL_CACHE_KEY = `${process.env.REDIS_PREFIX}:fixtures:all`;
+export const getAllFixtures = async (req: Request, res: Response) => {
+  try {
+    const cached = await redisClient.get(ALL_CACHE_KEY);
+    res.setHeader("Content-Type", "application/json");
+
+    if (cached) {
+      // ✅ cached là raw JSON string của data
+      return res.send(`{"success":true,"code":200,"message":"Fetched all fixtures successfully!","data":${cached}}`);
+    }
+
+    const data = await fixtureService.getAllFixtures();
+    const response = `{"success":true,"code":200,"message":"Fetched all fixtures successfully","data":${JSON.stringify(data)}}`;
+
+    await redisClient.set(ALL_CACHE_KEY, JSON.stringify(data), {
+      EX: 15,
+    });
+
+    return res.send(response);
+  } catch (err: any) {
+    res.status(500);
+    res.setHeader("Content-Type", "application/json");
+    return res.send(`{"success":false,"code":500,"message":"Failed to fetch fixtures","error_detail":"${String(err.message)}"}`);
+  }
+};
+
+const UNFINISHED_CACHE_KEY = `${process.env.REDIS_PREFIX}:fixtures:unfinished`;
+export const getUnfinishedFixtures = async (req: Request, res: Response) => {
+  try {
+    const cached = await redisClient.get(UNFINISHED_CACHE_KEY);
+    res.setHeader("Content-Type", "application/json");
+
+    if (cached) {
+      return res.send(`{"success":true,"code":200,"message":"Fetched all fixtures successfully!","data":${cached}}`);
+    }
+
+    const data = await fixtureService.getUnfinishedFixtures();
+    const response = `{"success":true,"code":200,"message":"Fetched all fixtures successfully","data":${JSON.stringify(data)}}`;
+
+    await redisClient.set(UNFINISHED_CACHE_KEY, JSON.stringify(data), {
+      EX: 15,
+    });
+
+    return res.send(response);
+  } catch (err: any) {
+    res.status(500);
+    res.setHeader("Content-Type", "application/json");
+    return res.send(`{"success":false,"code":500,"message":"Failed to fetch fixtures","error_detail":"${String(err.message)}"}`);
+  }
+};
+
+const FINISHED_CACHE_KEY = `${process.env.REDIS_PREFIX}:fixtures:finished`;
+export const getFinishedFixtures = async (req: Request, res: Response) => {
+  try {
+    const cached = await redisClient.get(FINISHED_CACHE_KEY);
+    res.setHeader("Content-Type", "application/json");
+
+    if (cached) {
+      return res.send(`{"success":true,"code":200,"message":"Fetched all fixtures successfully!","data":${cached}}`);
+    }
+
+    const data = await fixtureService.getFinishedFixtures();
+    const response = `{"success":true,"code":200,"message":"Fetched all fixtures successfully","data":${JSON.stringify(data)}}`;
+
+    await redisClient.set(FINISHED_CACHE_KEY, JSON.stringify(data), {
+      EX: 15,
+    });
+
+    return res.send(response);
+  } catch (err: any) {
+    res.status(500);
+    res.setHeader("Content-Type", "application/json");
+    return res.send(`{"success":false,"code":500,"message":"Failed to fetch fixtures","error_detail":"${String(err.message)}"}`);
+  }
+};
+
+/**
+ * GET fixture by id | slug
+ */
+export const getFixture = async (req: Request, res: Response) => {
+  try {
+    const { by, value } = req.query as { by: "id" | "slug"; value: string };
+    const data = await fixtureService.getFixture(by, value);
+
+    res.setHeader("Content-Type", "application/json");
+
+    if (!data) {
+      res.status(404);
+      return res.send(`{"success":false,"code":404,"message":"Fixture not found","error_detail":${JSON.stringify({ by, value })}}`);
+    }
+
+    res.status(200);
+    return res.send(`{"success":true,"code":200,"message":"Fetched fixture successfully","data":${JSON.stringify(data)}}`);
+  } catch (err: any) {
+    res.status(500);
+    res.setHeader("Content-Type", "application/json");
+    return res.send(`{"success":false,"code":500,"message":"Failed to fetch fixture","error_detail":"${String(err.message)}"}`);
+  }
+};
