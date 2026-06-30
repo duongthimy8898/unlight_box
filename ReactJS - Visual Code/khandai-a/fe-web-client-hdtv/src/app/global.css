@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@source inline("bg-green-500 text-yellow-500");
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+/* Hiệu ứng glow hồng cánh đào nhấp nháy nhẹ */
+@keyframes peach-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 12px rgba(255, 92, 141, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(255, 92, 141, 0.7);
+  }
+}
+
+/* Hiệu ứng nổi/lắc nhẹ như cánh đào */
+@keyframes peach-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(6deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Hiệu ứng dải sáng quét ngang (shimmer) */
+@keyframes peach-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.glow-peach {
+  animation: peach-glow 2.4s ease-in-out infinite;
+}
+
+.float-peach {
+  animation: peach-float 3s ease-in-out infinite;
+}
+
+.shimmer-peach {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 92, 141, 0) 20%,
+    rgba(255, 158, 187, 0.65) 50%,
+    rgba(255, 92, 141, 0) 80%
+  );
+  background-size: 200% 100%;
+  animation: peach-shimmer 2.5s linear infinite;
+}
+
+
+html {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+}
+
+body::-webkit-scrollbar {
+  @apply w-1;
+}
+
+body::-webkit-scrollbar-track {
+  @apply bg-[#1f1f22]/25;
+}
+
+body::-webkit-scrollbar-thumb {
+  @apply bg-pink-700/20 cursor-pointer;
+}
+
+body {
+  @apply text-white;
+}
+
+#root {
+  @apply pt-16;
+}
+
+main {
+  @apply min-h-[calc(100vh-64px)] max-w-7xl mx-auto my-0 overflow-hidden;
+}

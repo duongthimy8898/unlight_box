@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+  }
+  video {
+    display: block;
+  }
+  .vds-poster {
+    z-index: 10;
+  }
+}
+
+@keyframes page-pulse {
+  0%,
+  100% {
+    background-color: #0a0a0f;
+  }
+  50% {
+    background-color: #111118;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+@keyframes loading-bar {
+  0% {
+    width: 0%;
+    margin-left: 0%;
+  }
+  50% {
+    width: 60%;
+    margin-left: 20%;
+  }
+  100% {
+    width: 0%;
+    margin-left: 100%;
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
+
+@keyframes logo-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px rgba(160, 120, 40, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(200, 160, 50, 0.65));
+  }
+}

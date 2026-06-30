@@ -16,6 +16,7 @@ const InteractBox = ({ referenceId, chatChannelKeyId }: { referenceId: string | 
   const chatChannelKey = chatChannelKeyId ? chatChannelKeyId.split("-")[1] : undefined;
   const [activeTab, setActiveTab] = useState("tab1");
   const [chatMode, setChatMode] = useState("global");
+  const [chatEnabled, setChatEnabled] = useState(false);
   const { fixturesStats } = useDataContext();
   const fixtureStats = fixturesStats.data?.find((fs) => fs.fixture.id.toString() === referenceId);
   return (
@@ -80,16 +81,31 @@ const InteractBox = ({ referenceId, chatChannelKeyId }: { referenceId: string | 
                 </button>
               </div>
 
-              <div className="h-full" style={{ display: chatMode === "global" ? "block" : "none" }}>
-                <iframe width="100%" height="100%" src="https://www5.cbox.ws/box/?boxid=957822&boxtag=bST1X5"></iframe>
-              </div>
-              <div className="h-full" style={{ display: chatMode === "local" && chatChannelId && chatChannelKey ? "block" : "none" }}>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={`https://www5.cbox.ws/box/?boxid=957822&boxtag=bST1X5&tid=${chatChannelId}&tkey=${chatChannelKey}`}
-                ></iframe>
-              </div>
+              {chatEnabled ? (
+                <>
+                  <div className="h-full" style={{ display: chatMode === "global" ? "block" : "none" }}>
+                    <iframe width="100%" height="100%" src="https://www5.cbox.ws/box/?boxid=957822&boxtag=bST1X5"></iframe>
+                  </div>
+                  <div className="h-full" style={{ display: chatMode === "local" && chatChannelId && chatChannelKey ? "block" : "none" }}>
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www5.cbox.ws/box/?boxid=957822&boxtag=bST1X5&tid=${chatChannelId}&tkey=${chatChannelKey}`}
+                    ></iframe>
+                  </div>
+                </>
+              ) : (
+                <div className="absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/80 backdrop-blur-sm">
+                  <LuMessagesSquare size={40} className="text-[#4ca6ff]" />
+                  <p className="text-sm text-[#9c9c9c]">Tham gia trò chuyện cùng mọi người</p>
+                  <button
+                    onClick={() => setChatEnabled(true)}
+                    className="px-6 py-2 rounded-full bg-blue-500 text-sm font-semibold text-white border border-white shadow hover:bg-blue-600 transition-colors"
+                  >
+                    Bật chat
+                  </button>
+                </div>
+              )}
 
               {/* {!isAuthenticated && (
                 <div className="absolute bottom-0 left-0 z-50 w-full h-[128px] bg-gradient-to-t from-[#000000_75%] to-black/0 flex justify-center items-center">

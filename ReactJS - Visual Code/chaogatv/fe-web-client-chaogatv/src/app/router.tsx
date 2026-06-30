@@ -32,6 +32,7 @@ const rootRoute = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   notFoundComponent: NotFoundPage,
   loader: async ({ context: { queryClient } }) => {
     const sports = queryClient.ensureQueryData(sportQueries.list());
+    
     return sports;
   },
 });

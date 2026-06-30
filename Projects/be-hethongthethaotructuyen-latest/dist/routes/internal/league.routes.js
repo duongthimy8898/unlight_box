@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const league_controller_1 = require("../../controllers/internal/league.controller");
+const internalLeagueRouter = (0, express_1.Router)();
+internalLeagueRouter.get("/", league_controller_1.getAllLeagues);
+internalLeagueRouter.get("/get", league_controller_1.getLeague);
+internalLeagueRouter.post("/create", league_controller_1.createLeague);
+internalLeagueRouter.put("/update/:id", league_controller_1.updateLeague);
+internalLeagueRouter.delete("/delete/:id", league_controller_1.deleteLeague);
+exports.default = internalLeagueRouter;

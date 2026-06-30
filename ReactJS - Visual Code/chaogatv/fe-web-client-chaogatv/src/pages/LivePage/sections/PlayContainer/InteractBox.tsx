@@ -86,13 +86,13 @@ const InteractBox = ({
               </div>
 
               <div className="h-full" style={{ display: chatMode === "global" ? "block" : "none" }}>
-                <iframe width="100%" height="100%" src="https://www5.cbox.ws/box/?boxid=962943&boxtag=waNd3k"></iframe>
+                <iframe width="100%" height="100%" src="https://www5.cbox.ws/box/?boxid=960460&boxtag=0V4sGi"></iframe>
               </div>
               <div className="h-full" style={{ display: chatMode === "local" && chatChannelId && chatChannelKey ? "block" : "none" }}>
                 <iframe
                   width="100%"
                   height="100%"
-                  src={`https://www5.cbox.ws/box/?boxid=962943&boxtag=waNd3k&tid=${chatChannelId}&tkey=${chatChannelKey}`}
+                  src={`https://www5.cbox.ws/box/?boxid=960460&boxtag=0V4sGi&tid=${chatChannelId}&tkey=${chatChannelKey}`}
                 ></iframe>
               </div>
 

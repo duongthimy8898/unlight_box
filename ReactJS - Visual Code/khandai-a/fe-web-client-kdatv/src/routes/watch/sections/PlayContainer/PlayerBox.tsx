@@ -41,12 +41,33 @@ type PlayerBoxProps = {
 function playM3u8(this: Artplayer, video: HTMLVideoElement, url: string, art: Artplayer) {
   if (Hls.isSupported()) {
     if (art.hls) (art.hls as Hls).destroy();
-    const hls = new Hls();
+    const hls = new Hls({
+      liveDurationInfinity: true, // bám live edge cho stream live
+      fragLoadingMaxRetry: 6, // thử lại segment khi mạng chập chờn
+      levelLoadingMaxRetry: 4,
+      manifestLoadingMaxRetry: 4,
+    });
     hls.loadSource(url);
     hls.attachMedia(video);
     art.hls = hls;
+
+    // 👇 THÊM: tự hồi khi gặp lỗi fatal thay vì đứng hình
+    hls.on(Hls.Events.ERROR, (_event, data) => {
+      if (!data.fatal) return; // lỗi không fatal hls.js tự xử
+      switch (data.type) {
+        case Hls.ErrorTypes.NETWORK_ERROR:
+          hls.startLoad(); // tải lại từ mạng
+          break;
+        case Hls.ErrorTypes.MEDIA_ERROR:
+          hls.recoverMediaError(); // hồi lỗi buffer/decode
+          break;
+        default:
+          hls.destroy(); // không cứu được thì bỏ
+          break;
+      }
+    });
+
     art.on("destroy", () => {
-      console.log("vip pro");
       hls.stopLoad();
       hls.detachMedia();
       hls.destroy();
@@ -59,8 +80,13 @@ function playM3u8(this: Artplayer, video: HTMLVideoElement, url: string, art: Ar
   }
 }
 
-const PlayerBox = ({ props, state }: { props: PlayerBoxProps; state: { cleanMode: boolean; handleToggle: () => void } }) => {
-  
+const PlayerBox = ({
+  props,
+  state,
+}: {
+  props: PlayerBoxProps;
+  state: { cleanMode: boolean; handleToggle: () => void };
+}) => {
   const playerRef = useRef<HTMLDivElement>(null);
   const artRef = useRef<Artplayer | null>(null);
   const source = props.broadcasts?.at(0)?.streams.at(0); // ← tính trực tiếp
@@ -156,7 +182,24 @@ const PlayerBox = ({ props, state }: { props: PlayerBoxProps; state: { cleanMode
         artRef.current = null;
       }
     };
-  }, [props.poster, props.broadcasts, props.status, source]);
+  }, [props.status, source?.sourceUrl]);
+  // useEffect(() => {
+  //   const onVisible = () => {
+  //     if (document.visibilityState !== "visible") return;
+  //     const art = artRef.current;
+  //     const hls = art?.hls as Hls | undefined;
+  //     if (!art || !hls) return;
+
+  //     // nhảy về mép live nếu đã tụt lại phía sau
+  //     if (hls.liveSyncPosition != null && !Number.isNaN(hls.liveSyncPosition)) {
+  //       art.currentTime = hls.liveSyncPosition;
+  //     }
+  //     art.play?.().catch(() => {}); // bỏ qua nếu trình duyệt chặn autoplay
+  //   };
+  //   document.addEventListener("visibilitychange", onVisible);
+  //   return () => document.removeEventListener("visibilitychange", onVisible);
+  // }, []);
+
   return (
     <div className="bg-[#0F0F0F] flex flex-col">
       <div
@@ -166,7 +209,11 @@ const PlayerBox = ({ props, state }: { props: PlayerBoxProps; state: { cleanMode
         )}
       >
         <div className="flex-1 min-w-0 flex flex-row items-center gap-1">
-          <img src={props.broadcasts?.at(0)?.commentator.avatarUrl} alt="" className="size-9 rounded-full border-2 border-brand" />
+          <img
+            src={props.broadcasts?.at(0)?.commentator.avatarUrl}
+            alt=""
+            className="size-9 rounded-full border-2 border-brand"
+          />
           <div className="w-full flex flex-col overflow-hidden">
             <p className="text-sm font-semibold truncate">{props.title}</p>
             <p className="text-xs text-blue-500">{props.broadcasts?.at(0)?.commentator.nickname}</p>
@@ -232,13 +279,22 @@ const PlayerBox = ({ props, state }: { props: PlayerBoxProps; state: { cleanMode
         <div
           key="player"
           id="player"
-          className={clsx("bg-black flex-1 aspect-video relative", state.cleanMode && "aspect-video lg:aspect-auto! object-contain!")}
+          className={clsx(
+            "bg-black flex-1 aspect-video relative",
+            state.cleanMode && "aspect-video lg:aspect-auto! object-contain!",
+          )}
           ref={playerRef}
         >
           React Player
         </div>
       ) : (
-        <div key="poster" className={clsx("bg-black flex-1 aspect-video relative", state.cleanMode && "aspect-video lg:aspect-auto! object-contain!")}>
+        <div
+          key="poster"
+          className={clsx(
+            "bg-black flex-1 aspect-video relative",
+            state.cleanMode && "aspect-video lg:aspect-auto! object-contain!",
+          )}
+        >
           <div
             className="absolute z-10 inset-0 w-full h-full bg-cover bg-no-repeat bg-center"
             style={{ backgroundImage: `url("${props.poster ?? "/default-player-poster.png"}")` }}

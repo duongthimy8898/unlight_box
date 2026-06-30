@@ -14,7 +14,6 @@ function App() {
   // if (isLoading) return <SplashScreen />;
 
   return (
-    
       <RouterProvider router={router} />
   );
 }
