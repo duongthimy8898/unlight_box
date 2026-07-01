@@ -1,0 +1,11 @@
+.art-video-player .art-bottom {
+  justify-content: flex-start !important;
+  background-image: linear-gradient(to top, #0000, #0006, #000) !important;
+  background-position: top !important;
+}
+
+.art-video-player .art-notice {
+  display: none !important;
+  inset: unset !important;
+  bottom: 0 !important;
+}

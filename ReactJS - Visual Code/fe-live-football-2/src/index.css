@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+.jw-controlbar .jw-overlay {
+  bottom: unset !important;
+  top: 100% !important;
+}
